@@ -1,0 +1,56 @@
+﻿body {
+}
+.CL_Div_PostagemRow{
+    width: 100%;
+}
+.CL_text{
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.CL_Div_PostagemRowContent{
+	padding: 15px 0px 5px;
+}
+
+.divImgCurrentPerfilPost{
+    display: inline-block;
+    padding-right: 15px;
+}
+
+.headerPost .involvesHeaderPost .divImgCurrentPerfilPost img.imgCurrentPerfil{
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.headerPost .involvesHeaderPost .involvesDataUserPosted{
+    display: inline-block;
+    transform: translateY(32%);
+}
+
+.involvesDataUserPosted .NameUserCurrent{
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.involvesDataUserPosted .PublishingSchedule{
+    font-size: 12px;
+    position: relative;
+    top: -5px;
+}
+
+#rowPostContainer{
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 12px;
+}
+
+.totalPost{
+    padding: 12px 12px 0;
+    border: 1px solid;
+    box-shadow: 0px 0 8px;
+    margin-bottom: 20px;
+}
+
+.involvesHeaderPost{
+    padding-bottom: 6px;
+}
