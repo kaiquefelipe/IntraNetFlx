@@ -8,15 +8,18 @@ using System.Web.UI.HtmlControls;
 namespace IntraNetBack
 {
     public class Utils
-    {        
+    {
+        public SqlConnection conexaoSQLServer;     
         static string connectionString = null;
         //1-definição das informações para montar a string de conexão
         static string Server = "192.168.254.193";
         static string Username = "sa";
         static string Password = "fxm@sterb1";
         static string Database = "IntraNet";
+        //public int count = 1;
 
-        public static int getRows()
+
+        public static int getValueMaxID()
         {
             //2-montagem da string de conexão
             connectionString = "Data Source=" + Server + ";";
@@ -27,41 +30,42 @@ namespace IntraNetBack
             SqlConnection connection = new SqlConnection(connectionString);
             SqlDataReader sqlDataReader;
             connection.Open();
-            int count = 0;
-
+            int max = 0;
             string sSQL = @"
                 SELECT 
-	                [Posting_Text] = t0.Posting_Text, 
-	                [TotalLike] = (SELECT COUNT(t1.Like_TypeID) FROM [dbo].[Post_Likes] t1 WHERE t1.Like_PostingID = t0.Posting_ID),
-	                [Interact_Text] = t2.Interact_Text,
-	                [Schedule] = (CASE
-					                WHEN (DATEDIFF(DAY, t0.Posting_DateTime, GETDATE())) >= 1 THEN CONVERT(VARCHAR(10), t0.Posting_DateTime, 103)
-					                WHEN (DATEDIFF(SECOND, t0.Posting_DateTime, GETDATE()) / 60) < 1 THEN ' Agora mesmo'
-					                WHEN (DATEDIFF(MINUTE, t0.Posting_DateTime, GETDATE()) / 60) < 1 THEN CAST((DATEDIFF(MINUTE, t0.Posting_DateTime, GETDATE())) AS VARCHAR(100)) + ' Minuto(s)'
-					                WHEN (DATEDIFF(HOUR, t0.Posting_DateTime, GETDATE()) / 60) < 1 THEN CAST((DATEDIFF(HOUR, t0.Posting_DateTime, GETDATE())) AS VARCHAR(100)) + ' Hora(s)'
-				                END),
-	                [NameUser] = t3.User_Nome
+	                [LastPostID] = MAX(t0.Posting_ID)
                 FROM 
 	                [dbo].[Posts] t0 
-	                LEFT JOIN [dbo].[Posts_Interact] t2 ON t2.Interact_PostingID = t0.Posting_ID
-                    LEFT JOIN [dbo].[Users] t3 ON t3.UserID = t0.Posting_UserID
             ";
 
             SqlCommand command = new SqlCommand(sSQL, connection);
             sqlDataReader = command.ExecuteReader();
-
+           
             if (sqlDataReader.HasRows)
+            {
                 while (sqlDataReader.Read())
-                    count++;
+                {
+                    string teste = sqlDataReader["LastPostID"].ToString();
+                    if (string.IsNullOrEmpty(teste)) {
+                        
+                    }else
+                    {
+                        max = Convert.ToInt32(sqlDataReader["LastPostID"].ToString());
+                    }
+                    
+                }
+            }
 
             sqlDataReader.Close();
             connection.Close();
 
-            return count;
+            return max;
         }
 
         public static void buildPost(int idPost, HtmlGenericControl elementGrandfather)
         {
+            System.Web.UI.HtmlControls.HtmlGenericControl element = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
+            element.InnerHtml = "";
             //2-montagem da string de conexão
             connectionString = "Data Source=" + Server + ";";
             connectionString += "User ID=" + Username + ";";
@@ -71,7 +75,7 @@ namespace IntraNetBack
             SqlConnection connection = new SqlConnection(connectionString);
             SqlDataReader sqlDataReader;
             connection.Open();
-            int count = 1;
+            
 
             string sSQL = @"
                 SELECT 
@@ -84,7 +88,8 @@ namespace IntraNetBack
 					                WHEN (DATEDIFF(MINUTE, t0.Posting_DateTime, GETDATE()) / 60) < 1 THEN CAST((DATEDIFF(MINUTE, t0.Posting_DateTime, GETDATE())) AS VARCHAR(100)) + ' Minuto(s)'
 					                WHEN (DATEDIFF(HOUR, t0.Posting_DateTime, GETDATE()) / 60) < 1 THEN CAST((DATEDIFF(HOUR, t0.Posting_DateTime, GETDATE())) AS VARCHAR(100)) + ' Hora(s)'
 				                END),
-	                [NameUser] = t3.User_Nome
+	                [NameUser] = t3.User_Nome,
+                    [INTERACT_ID] = t2.Interact_ID
                 FROM 
 	                [dbo].[Posts] t0 
 	                LEFT JOIN [dbo].[Posts_Interact] t2 ON t2.Interact_PostingID = '" + idPost + @"'
@@ -98,7 +103,6 @@ namespace IntraNetBack
             bool firstLine = true;
             if (sqlDataReader.HasRows)
             {
-                System.Web.UI.HtmlControls.HtmlGenericControl element = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
                 while (sqlDataReader.Read())
                 {
                     if (firstLine)
@@ -153,32 +157,32 @@ namespace IntraNetBack
                         // ID
                         // ---------------------------------------------------------------------------////--------------------------------------------------------------------//
 
-                        createDiv.ID = "ID_Div_PostagemRow" + count;
+                        createDiv.ID = "ID_Div_PostagemRow" + idPost;
                         //createDivInter.ID = "ID_Div_";
                         //createDivInterContent.ID = "ID_Div_";
                         //createImgInter.ID = "";
-                        createP.ID = "ID_P_Text_Post";
-                        createDivLikeAndInteract.ID = "ID_Div_Like_And_Interact";
-                        createDivLike.ID = "ID_Div_Like";
-                        createDivInteract.ID = "ID_Div_Interact";
-                        element.ID = "totalPost" + count;
+                        createP.ID = "ID_P_Text_Post" + idPost;
+                        createDivLikeAndInteract.ID = "ID_Div_Like_And_Interact" + idPost;
+                        createDivLike.ID = "ID_Div_Like" + idPost;
+                        createDivInteract.ID = "ID_Div_Interact" + idPost;
+                        element.ID = "totalPost" + idPost;
 
 
                         // --------------------------------------------------------- ADD 24/10/2017 --------------------------------------------------------- //
 
-                        createDivShare.ID = "ID_Div_Share";
-                        createALike.ID = "ID_A_Like";
-                        createAInteract.ID = "ID_A_Interact";
-                        createAShare.ID = "ID_A_Share";
-                        createPLike.ID = "ID_P_Like";
-                        createPInteract.ID = "ID_P_Interact";
-                        createPShare.ID = "ID_P_Share";
-                        createDivBorderLike.ID = "ID_Div_Border_Like";
-                        createDivBorderInteract.ID = "ID_Div_Border_Interact";
-                        createDivBorderShare.ID = "ID_Div_Border_Share";
-                        createDivLikes.ID = "ID_Div_Likes";
-                        ResulPost.ID = "ID_Div_ResulPost";
-                        actionPost.ID = "ID_Div_ActionPost"; 
+                        createDivShare.ID = "ID_Div_Share" + idPost;
+                        createALike.ID = "ID_A_Like" + idPost;
+                        createAInteract.ID = "ID_A_Interact" + idPost;
+                        createAShare.ID = "ID_A_Share" + idPost;
+                        createPLike.ID = "ID_P_Like" + idPost;
+                        createPInteract.ID = "ID_P_Interact" + idPost;
+                        createPShare.ID = "ID_P_Share" + idPost;
+                        createDivBorderLike.ID = "ID_Div_Border_Like" + idPost;
+                        createDivBorderInteract.ID = "ID_Div_Border_Interact" + idPost;
+                        createDivBorderShare.ID = "ID_Div_Border_Share" + idPost;
+                        createDivLikes.ID = "ID_Div_Likes" + idPost;
+                        ResulPost.ID = "ID_Div_ResulPost" + idPost;
+                        actionPost.ID = "ID_Div_ActionPost" + idPost; 
 
 
 
@@ -318,7 +322,7 @@ namespace IntraNetBack
                     System.Web.UI.HtmlControls.HtmlGenericControl rowPostComment = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
                     rowPostComment.Attributes["class"] = "rowPostComment";
 
-                    createDivComment.ID = "ID_Div_PostagemCommentRow" + count;
+                    createDivComment.ID = "ID_Div_PostagemCommentRow" + sqlDataReader["INTERACT_ID"].ToString() + idPost;
                     createDivComment.Attributes["class"] = "CL_Div_PostagemCommentRow";
                     createDivCommentText.Attributes["class"] = "CL_Div_ContentCommentRow";
                     createDivCommentText.InnerHtml = sqlDataReader["Interact_Text"].ToString();
@@ -327,7 +331,7 @@ namespace IntraNetBack
                     rowPostComment.Controls.Add(createDivComment);
 
                     element.Controls.Add(rowPostComment);
-                    count++;
+                    //count++;
                 }
                 elementGrandfather.Controls.Add(element);
             }
@@ -337,6 +341,7 @@ namespace IntraNetBack
 
 
         }
+        
 
     }
 }

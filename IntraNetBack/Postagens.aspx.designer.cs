@@ -40,13 +40,22 @@ namespace IntraNetBack {
         protected global::System.Web.UI.HtmlControls.HtmlTextArea ID_Campo_De_Postagem;
         
         /// <summary>
-        /// ID_Button_Publicar control.
+        /// ID_Buton_Publicar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputButton ID_Button_Publicar;
+        protected global::System.Web.UI.HtmlControls.HtmlButton ID_Buton_Publicar;
+        
+        /// <summary>
+        /// Button1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button Button1;
         
         /// <summary>
         /// timeLine control.

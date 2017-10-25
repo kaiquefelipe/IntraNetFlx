@@ -8,7 +8,7 @@
     <title></title>
     <link href="~/Components/bootstrap.css" rel="stylesheet" />
     <link href="StyleSheet1.css" rel="stylesheet" />
-    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css" />
 
 </head>
 <body>
@@ -34,8 +34,12 @@
                                     <!-- <img src="imagens/misc-_smile_-16.png" class="CL_Imagem_Smile_Emoji"> --><i class="fa fa-smile-o" aria-hidden="true"></i><p class="CL_Sentimento_Atividade">Sentimento/Atividade</p>
                                 </div>
                             
-                                    <textarea name="" id="ID_Campo_De_Postagem" class="CL_Campo_De_Postagem" placeholder="No que você está pensando?" rows="4" runat="server"></textarea>
-                                    <input type="button" name="Publicar" value="Publicar" id="ID_Button_Publicar" class="CL_Button_Publicar" onclick="FunctionPost" runat="server" />
+                                    <textarea name="" id="ID_Campo_De_Postagem" class="CL_Campo_De_Postagem" placeholder="No que você está pensando?" rows="4" runat="server" ></textarea>
+                                    <!-- <input type="button" /> -->
+                                    <!-- <button name="Publicar" value="Publicar" id="ID_Buton_Publicar" class onclick="FunctionPost" runat="server"></button>-->
+
+                                <asp:Button ID="Button1" CssClass="CL_Buton_Publicar" runat="server" Text="Publicar" OnClick="Button1_Click" />
+
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
