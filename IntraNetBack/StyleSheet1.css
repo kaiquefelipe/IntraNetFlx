@@ -54,3 +54,271 @@
 .involvesHeaderPost{
     padding-bottom: 6px;
 }
+
+body {
+}
+/*.CL_Div_PostagemRow{
+    width: 340px;
+    min-height:50px;
+    background-color: pink;
+    max-height: 1000px;
+
+}
+.CL_text{
+    padding-top: 15px;
+    padding-bottom: 15px
+
+}
+
+.CL_Div_PostagemRowContent{
+	width: 320px;
+    min-height:50px;
+	max-height: 1000px;
+}
+*/
+#actionPost{
+	width: 340px;
+	height: 25px;
+    margin-top: -10px;
+}
+
+/*#rowPost{
+	width: 340px;
+	min-height: 50px;
+	max-height: 1000px;
+}
+*/
+/*#totalPost{
+	width: 340px;
+	min-height: 50px;
+	max-height: 3000px;
+}
+*/
+#RowLikes{
+	width: 340px;
+	height: 20px;
+	background-color: green;
+}
+
+.CL_IMG_postagemImgImage{
+
+}
+
+.CL_Like_And_Interact{
+	width: 100%;	
+	height: 100%;
+}
+
+.CL_Div_Like{
+    padding-left: 0;
+    padding-right: 7px;
+}
+
+.CL_Div_Interact,
+.CL_Div_Interact {
+    padding-left: 8px;
+    padding-right: 7px;
+}
+
+.CL_Div_Like,
+.CL_Div_Interact{
+    border-right: 1px solid;
+}
+
+.CL_Button_Like{
+
+}
+
+.CL_Button_Interact{
+
+}
+
+.CL_A_Like{
+    /*float: left;
+    padding-left: 4px;*/
+}
+
+.CL_A_Interact{
+	/*float: left;
+    padding-left: 25px;*/
+}
+
+.CL_A_Share{
+    /*float: left;
+    padding-left: 25px;*/
+}
+
+/*.CL_P_Like{
+	padding-top: 2px;
+
+}
+
+.CL_P_Interact{
+	padding-top: 2px;
+
+}
+
+.CL_P_Share{
+	padding-top: 2px;
+
+}*/
+
+/*.CL_Div_Border_Like{
+	width: 1px;
+    background-color: black;
+    float: right;
+    height: 15px;
+    margin-top: 5px;
+}
+
+.CL_Div_Border_Interact{
+	width: 1px;
+    background-color: black;
+    float: right;
+    height: 15px;
+    margin-top: 5px;
+}
+
+.CL_Div_Border_Share{
+	width: 1px;
+    background-color: black;
+    float: right;
+    height: 15px;
+    margin-top: 5px;
+}*/
+
+.CL_Div_PostagemCommentRow{
+	width: 100%;
+	max-height: 40px;
+}
+
+.CL_Div_ContentCommentRow{
+	width: 100%;
+	height:40px
+}
+
+section{
+	float: left;
+	width: 100%;
+}
+
+.CL_Div_Campo_De_Postagem{
+	background-color: white;
+	width: 95%;
+	height: 122px;
+}
+.CL_Campo_De_Postagem{
+	width: 100%;
+	border-width: 1px;	
+	border: 2px solid silver;
+	outline: none!important;
+	margin-top: 5px;
+	height: 100px;
+	border-radius: 8px;
+	padding-bottom: 56px;
+    padding-left: 18px;
+    resize: none;
+}
+
+.CL_Button_Publicar{
+	border-radius: 3px;
+	font-family: Segoe UI;
+	float: right;
+	width: 55px;
+	height: 20px;
+	margin-right: 3px;
+	background-color: #3b5998;
+	font-size: 11px;
+	color: #ffffff;
+	border:0;
+	margin-top: 3.5px;
+	padding-top: 0px
+}
+
+.CL_Div_Criar_Publicacao{
+	width: 114px;
+	height: 12px;
+	float: left;
+	margin-top: 5px;
+    padding-bottom: 0px;
+    border-right: 1px solid gray;
+    margin-left: 11px;
+}
+
+.CL_Imagem_lapis{
+	width: 17px;
+	height: 17px;
+	float: left;
+	margin-top: -2.4px
+}
+
+.CL_Criar_Publicacao{
+	color: black;
+	font-size: 10.5px;
+	margin-top: 2px;
+	margin-left: 20px;
+	letter-spacing: 0px;
+	word-spacing: 2px
+}
+
+.CL_Div_Album{
+	width: 146px;
+	height: 12px;
+	float: left;
+	margin-left: 19px;
+	margin-top: 5px;
+	padding-bottom: 0px;
+    border-right: 1px solid gray;
+}
+
+.CL_Imagem_cam{
+	width: 17px;
+	height: 17px;
+	float: left;
+	margin-top: -3.6px;
+}
+
+.CL_Album{
+	color: black;
+	font-size: 10.5px;
+	margin-top: 2px;
+	letter-spacing: 0px;
+	margin-left: 22px;
+	word-spacing: 1px
+}
+
+
+.CL_Div_Sentimento_Atividade{
+	width: 80px;
+    height: 12px;
+    float: left;
+    /* border-right: 1px solid gray; */
+    margin-left: 17.5px;
+    margin-top: 5px;
+    padding-bottom: 0px;
+}
+
+.CL_Imagem_Smile_Emoji{
+	width: 13px;
+    height: 13px;
+    float: left;
+    margin-top: -0.6px;
+
+}
+
+.CL_Sentimento_Atividade{
+	color: black;
+    font-size: 10.5px;
+    margin-top: 2px;
+    letter-spacing: 0px;
+    margin-left: 18px;
+    word-spacing: 1px
+}
+
+#ID_Div_Campo_De_Postagem i{
+	float: left;
+}
+
+.CL_Div_ActionPost div a p{
+    margin: 0;
+}

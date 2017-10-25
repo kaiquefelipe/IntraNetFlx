@@ -12,6 +12,7 @@ namespace IntraNetBack
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            int x = Utils.getRows();
             for (int i = 1; i <= 10; i++)
             {
                 Utils.buildPost(i, timeLine);

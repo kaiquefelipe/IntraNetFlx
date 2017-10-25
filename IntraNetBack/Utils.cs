@@ -16,6 +16,50 @@ namespace IntraNetBack
         static string Password = "fxm@sterb1";
         static string Database = "IntraNet";
 
+        public static int getRows()
+        {
+            //2-montagem da string de conexão
+            connectionString = "Data Source=" + Server + ";";
+            connectionString += "User ID=" + Username + ";";
+            connectionString += "Password=" + Password + ";";
+            connectionString += "Initial Catalog=" + Database;
+
+            SqlConnection connection = new SqlConnection(connectionString);
+            SqlDataReader sqlDataReader;
+            connection.Open();
+            int count = 0;
+
+            string sSQL = @"
+                SELECT 
+	                [Posting_Text] = t0.Posting_Text, 
+	                [TotalLike] = (SELECT COUNT(t1.Like_TypeID) FROM [dbo].[Post_Likes] t1 WHERE t1.Like_PostingID = t0.Posting_ID),
+	                [Interact_Text] = t2.Interact_Text,
+	                [Schedule] = (CASE
+					                WHEN (DATEDIFF(DAY, t0.Posting_DateTime, GETDATE())) >= 1 THEN CONVERT(VARCHAR(10), t0.Posting_DateTime, 103)
+					                WHEN (DATEDIFF(SECOND, t0.Posting_DateTime, GETDATE()) / 60) < 1 THEN ' Agora mesmo'
+					                WHEN (DATEDIFF(MINUTE, t0.Posting_DateTime, GETDATE()) / 60) < 1 THEN CAST((DATEDIFF(MINUTE, t0.Posting_DateTime, GETDATE())) AS VARCHAR(100)) + ' Minuto(s)'
+					                WHEN (DATEDIFF(HOUR, t0.Posting_DateTime, GETDATE()) / 60) < 1 THEN CAST((DATEDIFF(HOUR, t0.Posting_DateTime, GETDATE())) AS VARCHAR(100)) + ' Hora(s)'
+				                END),
+	                [NameUser] = t3.User_Nome
+                FROM 
+	                [dbo].[Posts] t0 
+	                LEFT JOIN [dbo].[Posts_Interact] t2 ON t2.Interact_PostingID = t0.Posting_ID
+                    LEFT JOIN [dbo].[Users] t3 ON t3.UserID = t0.Posting_UserID
+            ";
+
+            SqlCommand command = new SqlCommand(sSQL, connection);
+            sqlDataReader = command.ExecuteReader();
+
+            if (sqlDataReader.HasRows)
+                while (sqlDataReader.Read())
+                    count++;
+
+            sqlDataReader.Close();
+            connection.Close();
+
+            return count;
+        }
+
         public static void buildPost(int idPost, HtmlGenericControl elementGrandfather)
         {
             //2-montagem da string de conexão
@@ -77,8 +121,22 @@ namespace IntraNetBack
                         System.Web.UI.HtmlControls.HtmlGenericControl createDivLikeAndInteract = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
                         System.Web.UI.HtmlControls.HtmlGenericControl createDivLike = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
                         System.Web.UI.HtmlControls.HtmlGenericControl createDivInteract = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
-                        System.Web.UI.HtmlControls.HtmlGenericControl createButtonLike = new System.Web.UI.HtmlControls.HtmlGenericControl("BUTTON");
-                        System.Web.UI.HtmlControls.HtmlGenericControl createButtonInteract = new System.Web.UI.HtmlControls.HtmlGenericControl("BUTTON");
+
+                        // --------------------------------------------------------- ADD 24/10/2017 --------------------------------------------------------- //
+
+                        System.Web.UI.HtmlControls.HtmlGenericControl createDivShare = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");                        
+                        System.Web.UI.HtmlControls.HtmlGenericControl createALike = new System.Web.UI.HtmlControls.HtmlGenericControl("A");
+                        System.Web.UI.HtmlControls.HtmlGenericControl createAInteract = new System.Web.UI.HtmlControls.HtmlGenericControl("A");
+                        System.Web.UI.HtmlControls.HtmlGenericControl createAShare = new System.Web.UI.HtmlControls.HtmlGenericControl("A");
+                        System.Web.UI.HtmlControls.HtmlGenericControl createPLike = new System.Web.UI.HtmlControls.HtmlGenericControl("P");
+                        System.Web.UI.HtmlControls.HtmlGenericControl createPInteract = new System.Web.UI.HtmlControls.HtmlGenericControl("P");
+                        System.Web.UI.HtmlControls.HtmlGenericControl createPShare = new System.Web.UI.HtmlControls.HtmlGenericControl("P");
+                        System.Web.UI.HtmlControls.HtmlGenericControl createDivBorderLike = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
+                        System.Web.UI.HtmlControls.HtmlGenericControl createDivBorderInteract = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
+                        System.Web.UI.HtmlControls.HtmlGenericControl createDivBorderShare = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
+                        System.Web.UI.HtmlControls.HtmlGenericControl createDivLikes = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
+                        System.Web.UI.HtmlControls.HtmlGenericControl ResulPost = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
+
                         // --------------------------------------------------------- START HEADER --------------------------------------------------------- //
                         System.Web.UI.HtmlControls.HtmlGenericControl headerPost = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
 
@@ -103,10 +161,24 @@ namespace IntraNetBack
                         createDivLikeAndInteract.ID = "ID_Div_Like_And_Interact";
                         createDivLike.ID = "ID_Div_Like";
                         createDivInteract.ID = "ID_Div_Interact";
-                        createButtonLike.ID = "ID_Button_Like";
-                        createButtonInteract.ID = "ID_Button_Like";
                         element.ID = "totalPost" + count;
 
+
+                        // --------------------------------------------------------- ADD 24/10/2017 --------------------------------------------------------- //
+
+                        createDivShare.ID = "ID_Div_Share";
+                        createALike.ID = "ID_A_Like";
+                        createAInteract.ID = "ID_A_Interact";
+                        createAShare.ID = "ID_A_Share";
+                        createPLike.ID = "ID_P_Like";
+                        createPInteract.ID = "ID_P_Interact";
+                        createPShare.ID = "ID_P_Share";
+                        createDivBorderLike.ID = "ID_Div_Border_Like";
+                        createDivBorderInteract.ID = "ID_Div_Border_Interact";
+                        createDivBorderShare.ID = "ID_Div_Border_Share";
+                        createDivLikes.ID = "ID_Div_Likes";
+                        ResulPost.ID = "ID_Div_ResulPost";
+                        actionPost.ID = "ID_Div_ActionPost"; 
 
 
 
@@ -114,21 +186,35 @@ namespace IntraNetBack
                         // Class
                         // ---------------------------------------------------------------------------////--------------------------------------------------------------------//
 
-
-
                         createDiv.Attributes["class"] = "CL_Div_PostagemRow";
                         //createDivInter.Attributes["class"] = "postagemRowImage";// ADICIONAR QUANDO TIVER SUPORTE PARA IMAGEM
                         createDivInterContent.Attributes["class"] = "CL_Div_PostagemRowContent w3-content";
                         createImgInter.Attributes["class"] = "postagemImgImage";
                         createP.Attributes["class"] = "CL_text";
                         createDivLikeAndInteract.Attributes["class"] = "w3-row CL_Like_And_Interact";
-                        createDivLike.Attributes["class"] = "CL_Like";
-                        createDivInteract.Attributes["class"] = "CL_Interact";
-                        createButtonLike.Attributes["class"] = "CL_Button_Like";
-                        createButtonInteract.Attributes["class"] = "CL_Button_Interact";
+                        createDivLike.Attributes["class"] = "CL_Div_Like col-md-3";
+                        createDivInteract.Attributes["class"] = "CL_Div_Interact col-md-4";
                         rowPostContainer.Attributes["class"] = "rowPostContainer";
                         headerPost.Attributes["class"] = "headerPost";
                         element.Attributes["class"] = "totalPost";
+
+
+
+                        // --------------------------------------------------------- ADD 24/10/2017 --------------------------------------------------------- //
+
+                        createDivShare.Attributes["class"] = "CL_Div_Share col-md-5";
+                        createALike.Attributes["class"] = "CL_A_Like";
+                        createAInteract.Attributes["class"] = "CL_A_Interact";
+                        createAShare.Attributes["class"] = "CL_A_Share";
+                        createPLike.Attributes["class"] = "CL_P_Like";
+                        createPInteract.Attributes["class"] = "CL_P_Interact";
+                        createPShare.Attributes["class"] = "CL_P_Share";
+                        createDivBorderLike.Attributes["class"] = "CL_Div_Border_Like";
+                        createDivBorderInteract.Attributes["class"] = "CL_Div_Border_Interact";
+                        createDivBorderShare.Attributes["class"] = "CL_Div_Border_Share";
+                        createDivLikes.Attributes["class"] = "CL_Div_Likes";
+                        ResulPost.Attributes["class"] = "CL_Div_ResulPost";
+                        actionPost.Attributes["class"] = "CL_Div_ActionPost"; 
 
 
                         involvesHeaderPost.Attributes["class"] = "involvesHeaderPost";
@@ -152,13 +238,21 @@ namespace IntraNetBack
                         createP.InnerHtml = sqlDataReader["Posting_Text"].ToString();
                         //createDivInter.Controls.Add(createImgInter); // ADICIONAR QUANDO TIVER SUPORTE PARA IMAGEM
                         //createDiv.Controls.Add(createDivInter); // ADICIONAR QUANDO TIVER SUPORTE PARA IMAGEM
-                        createDivLike.InnerHtml = ((Convert.ToInt32(sqlDataReader["TotalLike"].ToString()) > 0) ? sqlDataReader["TotalLike"].ToString() + "Curtida(s)" : "");
+                        //createDivLike.InnerHtml = ((Convert.ToInt32(sqlDataReader["TotalLike"].ToString()) > 0) ? sqlDataReader["TotalLike"].ToString() + "Curtida(s)" : "");
+
+                        createPLike.InnerHtml = "Curtir";
+                        createPInteract.InnerHtml = "Comentar";
+                        createPShare.InnerHtml = "Compartilhar";
+
+                        createDivLikes.InnerHtml = ((Convert.ToInt32(sqlDataReader["TotalLike"].ToString()) > 0) ? sqlDataReader["TotalLike"].ToString() + " Curtida(s)" : "");
+
 
 
                         // ---------------------------------------------------------------------------////--------------------------------------------------------------------//
                         // resto
                         // ---------------------------------------------------------------------------////--------------------------------------------------------------------//
                         //imgCurrentPerfil.InnerHtml = @"C:\Users\DESENV5\Documents\Visual Studio 2015\Projects\IntraNetBack\IntraNetBack\Imagens\perfilRoni.jpg";
+
                         imgCurrentPerfil.Attributes["src"] = "https://uploaddeimagens.com.br/images/001/145/888/full/perfilRoni.jpg";
                         divImgCurrentPerfilPost.Controls.Add(imgCurrentPerfil);
                         involvesHeaderPost.Controls.Add(divImgCurrentPerfilPost);
@@ -181,8 +275,41 @@ namespace IntraNetBack
                         createDivLikeAndInteract.Controls.Add(createDivLike);
                         createDivLikeAndInteract.Controls.Add(createDivInteract);
                         //createDivAction.Controls.Add(createDivLikeAndInteract)
+
+
+
+                    // Like
+
+                        createALike.Controls.Add(createPLike);
+                        createDivLike.Controls.Add(createALike);
+                        createDivLike.Controls.Add(createDivBorderLike);
+                        createDivLikeAndInteract.Controls.Add(createDivLike);
+
+
+                    // Interact
+                        
+                        createAInteract.Controls.Add(createPInteract);
+                        createDivInteract.Controls.Add(createAInteract);
+                        createDivInteract.Controls.Add(createDivBorderInteract);
+                        createDivLikeAndInteract.Controls.Add(createDivInteract);
+
+
+                    // Share
+
+                        createAShare.Controls.Add(createPShare);
+                        createDivShare.Controls.Add(createAShare);
+                        createDivShare.Controls.Add(createDivBorderShare);
+                        createDivLikeAndInteract.Controls.Add(createDivShare);  
+
+
                         actionPost.Controls.Add(createDivLikeAndInteract);
                         element.Controls.Add(actionPost);
+
+
+
+                        ResulPost.Controls.Add(createDivLikes);
+
+                        element.Controls.Add(ResulPost);
                     }
 
                     System.Web.UI.HtmlControls.HtmlGenericControl createDivComment = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
