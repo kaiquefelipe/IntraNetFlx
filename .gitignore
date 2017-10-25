@@ -10,4 +10,13 @@ Thumbs.db
 
 # Compiled source #
 ###################
-*.config
+.vs/config/applicationhost.config
+IntraNetBack/obj/Debug/IntraNetBack.csprojResolveAssemblyReference.cache
+IntraNetBack/obj/Debug/IntraNetBack.dll
+IntraNetBack/obj/Debug/IntraNetBack.pdb
+IntraNetBack/obj/Debug/IntraNetBack.csproj.FileListAbsolute.txt
+IntraNetBack/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+IntraNetBack/bin/IntraNetBack.pdb
+IntraNetBack/bin/IntraNetBack.dll
+.vs/IntraNetBack/v14/.suo
+.vs/config/applicationhost.config
