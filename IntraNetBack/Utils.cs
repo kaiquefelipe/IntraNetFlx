@@ -95,6 +95,7 @@ namespace IntraNetBack
 					                WHEN (DATEDIFF(HOUR, t0.Posting_DateTime, GETDATE()) / 60) < 1 THEN CAST((DATEDIFF(HOUR, t0.Posting_DateTime, GETDATE())) AS VARCHAR(100)) + ' Hora(s)'
 				                END),
 	                [NameUser] = t3.User_Nome,
+                    [Caminho_Img] = t3.Caminho_Img,
                     [INTERACT_ID] = t2.Interact_ID
                 FROM 
 	                [dbo].[Posts] t0 
@@ -274,15 +275,24 @@ namespace IntraNetBack
                         // ---------------------------------------------------------------------------////--------------------------------------------------------------------//
                         //create_img_Current_Perfil.InnerHtml = @"C:\Users\DESENV5\Documents\Visual Studio 2015\Projects\IntraNetBack\IntraNetBack\Imagens\perfilRoni.jpg";
 
-                        create_img_Current_Perfil.Attributes["src"] = "https://uploaddeimagens.com.br/images/001/145/888/full/perfilRoni.jpg";
+                        create_img_Current_Perfil.Attributes["src"] = sqlDataReader["Caminho_Img"].ToString();
+
                         create_div_Img_Current_Perfil_Post.Controls.Add(create_img_Current_Perfil);
+
                         create_involves_Header_Post.Controls.Add(create_div_Img_Current_Perfil_Post);
+
                         create_Name_User_Current.InnerHtml = sqlDataReader["NameUser"].ToString();
+
                         create_involves_Data_User_Posted.Controls.Add(create_Name_User_Current);
+
                         create_Publishing_Schedule.InnerHtml = sqlDataReader["Schedule"].ToString();
+
                         create_involves_Data_User_Posted.Controls.Add(create_Publishing_Schedule);
+
                         create_involves_Header_Post.Controls.Add(create_involves_Data_User_Posted);
+
                         create_header_Post.Controls.Add(create_involves_Header_Post);
+
                         element.Controls.Add(create_header_Post);
 
 
