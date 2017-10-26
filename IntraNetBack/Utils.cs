@@ -64,8 +64,14 @@ namespace IntraNetBack
 
         public static void buildPost(int idPost, HtmlGenericControl elementGrandfather)
         {
+
             System.Web.UI.HtmlControls.HtmlGenericControl element = new System.Web.UI.HtmlControls.HtmlGenericControl("DIV");
             element.InnerHtml = "";
+
+
+
+
+
             //2-montagem da string de conexão
             connectionString = "Data Source=" + Server + ";";
             connectionString += "User ID=" + Username + ";";

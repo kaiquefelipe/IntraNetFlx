@@ -40,6 +40,11 @@
 
                                 <asp:Button ID="Button1" CssClass="CL_Buton_Publicar" runat="server" Text="Publicar" OnClick="Button1_Click" />
 
+                                <br />
+                                <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource1" DataTextField="User_Nome" DataValueField="User_Nome" ClientIDMode="Static">
+                                </asp:DropDownList>
+                                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:IntraNetConnectionString %>" SelectCommand="SELECT [User_Nome] FROM [Users]"></asp:SqlDataSource>
+
                             </div>
                             <div class="row">
                                 <div class="col-md-4">
