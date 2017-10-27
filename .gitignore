@@ -1,6 +1,6 @@
 
 *.dll
-.vs/IntraNetBack/v14/.suo
+.vs/
 IntraNetBack/bin/IntraNetBack.dll
 *.dll
 *.config
